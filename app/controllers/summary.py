@@ -140,11 +140,13 @@ class Summary:
                 "wfc_40min_list": self.wfc_40min_list,
                 "wfc_60min_list": self.wfc_60min_list
                 }
+        proxies = {'http': None, 'https': None}
         json_data = json.dumps(context)
         response = requests.post(
             settings.API_URL,
             data=json_data,
             headers={"Content-Type": "application/json"},
+            proxies=proxies
         )
         print(response.status_code)
         print(response.text)
