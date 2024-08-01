@@ -23,6 +23,7 @@ class BaseExcelHandler:
             try:
                 if self.excel is None:
                     self.excel = win32.gencache.EnsureDispatch('Excel.Application')
+                    self.excel.DisplayAlerts = False
                 wb = self.excel.Workbooks.Open(self.filename)
                 print(f'{self.filename}の外部接続を更新しています。')
                 wb.RefreshAll()

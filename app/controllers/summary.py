@@ -1,5 +1,6 @@
 import datetime
 import json
+import logging
 import pandas as pd
 import requests
 
@@ -8,6 +9,9 @@ from app.excel_handler.support_case import SupportCase
 from app.reporter_handler.reporter import Reporter
 import settings
 
+
+logging.basicConfig(level=settings.LOG_LEVEL, format=settings.LOG_FORMAT)
+logger = logging.getLogger(__name__)
 
 class Summary:
     def __init__(self, group_name: str):
@@ -141,15 +145,27 @@ class Summary:
                 "wfc_60min_list": self.wfc_60min_list
                 }
         proxies = {'http': None, 'https': None}
+        headers = {
+            'Content-Type': 'application/json',
+            "Authorization": f'Api-Key {settings.API_KEY}'
+        }
         json_data = json.dumps(context)
-        response = requests.post(
-            settings.API_URL,
-            data=json_data,
-            headers={"Content-Type": "application/json"},
-            proxies=proxies
-        )
-        print(response.status_code)
-        print(response.text)
+
+        try:
+            response = requests.post(
+                settings.API_URL,
+                data=json_data,
+                headers=headers,
+                proxies=proxies,
+                timeout=10
+            )
+            response.raise_for_status()
+            logger.info(f"Request successful: {response.status_code}")
+        
+        except requests.exceptions.Timeout:
+            logger.error("Request timed out")
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request failed: {e}")
     
     def is_empty(self, dataframe: pd.DataFrame, row: int, col: int):
         if dataframe.empty:
