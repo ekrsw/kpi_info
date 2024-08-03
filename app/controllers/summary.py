@@ -153,7 +153,7 @@ class Summary:
 
         try:
             response = requests.post(
-                settings.API_URL,
+                settings.API_KPI_URL,
                 data=json_data,
                 headers=headers,
                 proxies=proxies,

@@ -36,5 +36,6 @@ CLOSE_FILE = 'TS_todays_close.xlsx'
 SUPPORT_FILE = 'TS_todays_support.xlsx'
 
 # API関係設定
-API_URL = os.getenv('API_URL')
+API_KPI_URL = os.getenv('API_KPI_URL')
+API_OPERATOR_URL = os.getenv('API_OPERATOR_URL')
 API_KEY = os.getenv('API_KEY')
