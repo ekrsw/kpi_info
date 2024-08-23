@@ -147,7 +147,7 @@ class Summary:
         proxies = {'http': None, 'https': None}
         headers = {
             'Content-Type': 'application/json',
-            "Authorization": f'Api-Key {settings.API_KEY}'
+            "X-Api-Key": f'{settings.API_KEY}'
         }
         json_data = json.dumps(context)
 
